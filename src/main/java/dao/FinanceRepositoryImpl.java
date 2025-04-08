@@ -20,12 +20,13 @@ public class FinanceRepositoryImpl implements IFinanceRepository {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getInt("user_id");
-            else throw new UserNotFoundException("Invalid username or password.");
+           //else throw new UserNotFoundException("Invalid username or password.");
         } catch (Exception e) {
             System.err.println("Login error: " + e.getMessage());
             e.printStackTrace();
         }
-        return -1;
+        //return -1;
+        throw new UserNotFoundException("Invalid username and password");
     }
 
     @Override
@@ -59,6 +60,7 @@ public class FinanceRepositoryImpl implements IFinanceRepository {
                 expense.getDate().toString(),
                 expense.getDescription()
         );
+
     }
 
     @Override
@@ -163,4 +165,6 @@ public class FinanceRepositoryImpl implements IFinanceRepository {
             e.printStackTrace();
         }
     }
+
+
 }

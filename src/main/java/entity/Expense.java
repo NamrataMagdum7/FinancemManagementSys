@@ -23,6 +23,14 @@ public class Expense {
         this.description = description;
     }
 
+    public Expense(int userId, double amount, int categoryId, Date date, String description) {
+        this.userId = userId;
+        this.amount = amount;
+        this.categoryId = categoryId;
+        this.date = date;
+        this.description = description;
+    }
+
     //  Getters and Setters
     public int getExpenseId() {
         return expenseId;

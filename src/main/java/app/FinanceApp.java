@@ -15,9 +15,11 @@ public class FinanceApp {
         Scanner sc = new Scanner(System.in);
         FinanceRepositoryImpl repo = new FinanceRepositoryImpl();
         FinanceServiceImpl financeServiceservice=new FinanceServiceImpl();
+
+
         int userId = -1;
 
-        // Login block
+// Login block
         while (userId == -1) {
             System.out.print("Username: ");
             String uname = sc.nextLine();
@@ -25,9 +27,11 @@ public class FinanceApp {
             String pass = sc.nextLine();
 
             try {
-                userId = repo.login(uname, pass);
+                userId = financeServiceservice.login(uname, pass);  // fixed: removed 'int' and used uname/pass
+                System.out.println("Login successful! Welcome user ID: " + userId);
+                // continue with the next menu or logic
             } catch (UserNotFoundException e) {
-                System.out.println(e.getMessage());
+                System.out.println("Login failed: " + e.getMessage());
             }
         }
 
@@ -39,7 +43,7 @@ public class FinanceApp {
             System.out.println("2. View My Expenses");
             System.out.println("3. Update Expense");
             System.out.println("4. Delete Expense");
-            System.out.println("5. Add Expense Category (Not implemented)");
+
             System.out.println("6. View Categories");
             System.out.println("7. Generate Expense Report");
             System.out.println("8. Exit");
@@ -59,7 +63,14 @@ public class FinanceApp {
                         String date = sc.nextLine();
                         System.out.print("Description: ");
                         String desc = sc.nextLine();
-                        repo.createExpense(userId, amt, catId, date, desc);
+                       // repo.createExpense(userId, amt, catId, date, desc);
+                        try{
+                            java.sql.Date sqlDate=java.sql.Date.valueOf(date);
+                            Expense expense= new Expense(userId, amt, catId, sqlDate, desc);
+                        } catch (Exception e) {
+                            //throw new RuntimeException(e);
+                            System.out.println("Error adding expense:" +e.getMessage());
+                        }
                         break;
                     }
 
@@ -103,9 +114,9 @@ public class FinanceApp {
                     }
 
                     case 5: {
-                        System.out.println("Add Category feature not implemented yet.");
+                        //System.out.println("Add Category feature not implemented yet.");
                         // Uncomment and implement if needed in repository:
-                        // System.out.print("Enter new category name: ");
+                        //System.out.print("Enter new category name: ");
                         // String catName = sc.nextLine();
                         // repo.addCategory(catName);
                         break;
